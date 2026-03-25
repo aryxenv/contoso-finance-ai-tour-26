@@ -147,7 +147,7 @@ All server variables use the `CONTOSO_` prefix and are loaded automatically by [
 ### Quick Start (Docker only)
 
 ```bash
-docker compose -f docker/docker-compose.yml up --build
+docker compose up
 ```
 
 This starts the client (port 3000), server (port 8000), and PostgreSQL — fully containerized.
