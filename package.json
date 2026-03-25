@@ -1,0 +1,22 @@
+{
+  "name": "contoso-finance",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A modern financial services platform — modular monolith in a monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:turbo": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "clean": "turbo clean"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  },
+  "packageManager": "npm@10.8.0"
+}

@@ -1,0 +1,45 @@
+name: contoso-finance
+
+services:
+  postgres:
+    container_name: contoso-finance-postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: contoso_finance
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    container_name: contoso-finance-server
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    ports:
+      - "8000:8000"
+    environment:
+      CONTOSO_DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/contoso_finance
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  client:
+    container_name: contoso-finance-client
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.client
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+
+volumes:
+  postgres-data:

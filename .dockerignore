@@ -1,0 +1,90 @@
+# =========================
+# .dockerignore
+# =========================
+# Both Dockerfiles use the monorepo root as build context.
+# This file reduces build context size and prevents leaking
+# secrets, caches, and dev-only files into images.
+
+# ---- Version control ----
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# ---- IDE & editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# ---- Dev tools & hooks ----
+.husky/
+.turbo/
+scripts/
+skills/
+excalidraw/
+
+# ---- Node.js ----
+node_modules/
+npm-debug.log*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+.venv/
+venv/
+env/
+*.whl
+
+# ---- Test & lint caches ----
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage/
+
+# ---- Environment & secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Build artifacts ----
+dist/
+build/
+*.tsbuildinfo
+docker/postgres-data/
+
+# ---- Documentation ----
+README.md
+ROADMAP.md
+TEMPLATE.md
+LICENSE
+
+# ---- Server dev-only files ----
+apps/server/tests/
+apps/server/pytest.ini
+apps/server/requirements-dev.txt
+apps/server/ruff.toml
+apps/server/.pytest_cache/
+apps/server/.ruff_cache/
+apps/server/.venv/
+apps/server/.turbo/
+
+# ---- Client dev-only files ----
+apps/client/.turbo/
+apps/client/dist/
+apps/client/node_modules/
+apps/client/.gitignore
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+
+# ---- Logs ----
+*.log
