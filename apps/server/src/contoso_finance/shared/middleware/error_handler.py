@@ -20,6 +20,13 @@ class NotFoundError(DomainError):
         super().__init__(message=message, status_code=404)
 
 
+class ConflictError(DomainError):
+    """Resource conflict (409)."""
+
+    def __init__(self, message: str = "Resource already exists"):
+        super().__init__(message=message, status_code=409)
+
+
 def register_error_handlers(app: FastAPI) -> None:
     """Register global exception handlers."""
 
