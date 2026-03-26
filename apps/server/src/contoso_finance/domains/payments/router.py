@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from contoso_finance.domains.payments import service
@@ -12,6 +12,7 @@ from contoso_finance.domains.payments.schemas import (
     PaymentMethodCreate,
     PaymentMethodResponse,
     PaymentResponse,
+    PaymentStatusResponse,
     RefundRequest,
 )
 from contoso_finance.shared.database.session import get_db
@@ -53,30 +54,48 @@ async def create_payment_method(
     return await service.create_payment_method(db, data)
 
 
-@router.get(
-    "/{payment_id}",
-    response_model=PaymentResponse,
-    summary="Get payment",
-    responses=_NOT_FOUND,
-)
-async def get_payment(payment_id: UUID, db: AsyncSession = Depends(get_db)):
-    """Get a specific payment by its unique identifier."""
-    return await service.get_payment(db, payment_id)
-
-
 @router.post(
     "/",
     response_model=PaymentResponse,
     status_code=201,
-    summary="Process payment",
+    summary="Create payment",
     responses=_VALIDATION,
 )
-async def process_payment(
+async def create_payment(
     data: PaymentCreate,
     db: AsyncSession = Depends(get_db),
 ):
-    """Process a new payment against an optional invoice."""
-    return await service.process_payment(db, data)
+    """Create a new payment against an optional invoice."""
+    return await service.create_payment(db, data)
+
+
+@router.post(
+    "/{payment_id}/process",
+    response_model=PaymentResponse,
+    summary="Process a pending payment",
+    responses={**_NOT_FOUND, **_VALIDATION},
+)
+async def process_payment(
+    payment_id: UUID,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
+    """Initiate processing for a pending payment. Processing completes asynchronously."""
+    return await service.initiate_processing(db, payment_id, background_tasks)
+
+
+@router.get(
+    "/{payment_id}/status",
+    response_model=PaymentStatusResponse,
+    summary="Get payment status",
+    responses=_NOT_FOUND,
+)
+async def get_payment_status(
+    payment_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """Poll the current status of a payment."""
+    return await service.get_payment_status(db, payment_id)
 
 
 @router.post(
@@ -92,3 +111,14 @@ async def refund_payment(
 ):
     """Refund a completed payment, fully or partially."""
     return await service.refund_payment(db, payment_id, refund)
+
+
+@router.get(
+    "/{payment_id}",
+    response_model=PaymentResponse,
+    summary="Get payment",
+    responses=_NOT_FOUND,
+)
+async def get_payment(payment_id: UUID, db: AsyncSession = Depends(get_db)):
+    """Get a specific payment by its unique identifier."""
+    return await service.get_payment(db, payment_id)
