@@ -13,6 +13,10 @@ from contoso_finance.main import app
 from contoso_finance.shared.database.base import Base
 from contoso_finance.shared.database.session import get_db
 
+# Use instant processing in tests to avoid slow background-task delays
+settings.payment_processing_delay_seconds = 0
+settings.payment_failure_rate = 0.0
+
 
 @pytest.fixture(scope="session")
 def anyio_backend():

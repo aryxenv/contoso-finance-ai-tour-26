@@ -128,6 +128,17 @@ class PaymentResponse(BaseModel):
     )
 
 
+class PaymentStatusResponse(BaseModel):
+    """Schema for polling a payment's current processing status."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    status: str
+    reference: str
+    updated_at: datetime
+
+
 class RefundRequest(BaseModel):
     """Schema for requesting a refund."""
 
