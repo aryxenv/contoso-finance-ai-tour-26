@@ -1,4 +1,4 @@
-import type { CurrencyCode, Money, Status } from './common';
+import type { CurrencyCode, Money } from './common';
 
 export type SettlementStatus = 'pending' | 'reconciling' | 'approved' | 'completed' | 'rejected';
 

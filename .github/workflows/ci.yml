@@ -19,7 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/client
 
       - name: Lint
         run: npm run lint

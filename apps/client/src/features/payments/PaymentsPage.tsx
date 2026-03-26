@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { CurrencyCode, Payment, PaymentMethod, PaymentStatus } from '@contoso-finance/shared-types'
+import type { CurrencyCode, Payment, PaymentMethod, PaymentStatus, PaymentStatusResponse } from '@contoso-finance/shared-types'
 import {
   Badge,
   Button,
@@ -22,13 +22,13 @@ import {
   Input,
   Option,
   Spinner,
-  TableColumnDefinition,
   Text,
   Title1,
   createTableColumn,
   makeStyles,
   tokens,
 } from '@fluentui/react-components'
+import type { TableColumnDefinition } from '@fluentui/react-components'
 import { AddRegular, ArrowSyncRegular, PlayRegular } from '@fluentui/react-icons'
 import { createPayment, getPaymentStatus, listPaymentMethods, listPayments, processPayment } from '../../api/payments'
 
@@ -191,7 +191,7 @@ export function PaymentsPage() {
             }
           })
         )
-        const hasTerminalUpdate = statusResponses.some((response) => {
+        const hasTerminalUpdate = statusResponses.some((response: PaymentStatusResponse | null) => {
           if (!response) {
             return false
           }
