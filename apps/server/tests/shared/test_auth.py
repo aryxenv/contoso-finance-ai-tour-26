@@ -1,4 +1,4 @@
-"""Tests for JWT authentication."""
+"""Tests for authentication, including JWT tokens and password hashing/validation."""
 
 import pytest
 
