@@ -13,6 +13,10 @@ def register_routers(app: FastAPI) -> None:
 
     app.include_router(billing_router)
 
+    from contoso_finance.domains.auth import router as auth_router
+
+    app.include_router(auth_router)
+
     from contoso_finance.domains.reporting import router as reporting_router
 
     app.include_router(reporting_router)

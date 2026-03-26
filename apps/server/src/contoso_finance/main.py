@@ -32,6 +32,10 @@ Pass the token in the `Authorization` header as `Bearer <token>`.
 
 OPENAPI_TAGS = [
     {
+        "name": "auth",
+        "description": "Authentication and user profile management — register, login, and manage current user details.",
+    },
+    {
         "name": "billing",
         "description": "Invoice management — create, update, send, and track invoices through their lifecycle.",
     },
