@@ -70,8 +70,14 @@ async def update_payment_status(
         return None
     payment.status = status
     await db.flush()
-    await db.refresh(payment, attribute_names=["payment_method"])
-    return payment
+    # Re-fetch to pick up server-generated updated_at and eager-load relationships
+    return await get_payment_by_id(db, payment_id)
+
+
+async def get_payment_status(db: AsyncSession, payment_id: uuid.UUID) -> Payment | None:
+    """Get a payment with only status-relevant fields."""
+    result = await db.execute(select(Payment).where(Payment.id == payment_id))
+    return result.scalar_one_or_none()
 
 
 async def get_payment_methods(db: AsyncSession) -> list[PaymentMethod]:
