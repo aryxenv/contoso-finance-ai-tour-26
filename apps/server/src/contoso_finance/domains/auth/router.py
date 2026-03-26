@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from contoso_finance.domains.auth import service
+from contoso_finance.domains.auth.dependencies import get_current_user
 from contoso_finance.domains.auth.models import User
 from contoso_finance.domains.auth.schemas import (
     LoginRequest,
@@ -12,7 +13,6 @@ from contoso_finance.domains.auth.schemas import (
     UserResponse,
     UserUpdateRequest,
 )
-from contoso_finance.shared.auth import get_current_user
 from contoso_finance.shared.database import get_db
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
