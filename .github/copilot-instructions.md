@@ -353,5 +353,6 @@ This repo uses **skill files** in `skills/` to define detailed conventions for s
 - **Fluent UI** — `skills/fluent-ui/SKILL.md` defines the component library, dark theme, styling patterns, and MCP server usage. All frontend UI must use Fluent UI v9.
 - **Diagrams** — `skills/visuals/SKILL.md` defines the Excalidraw-only diagramming workflow, including dark-mode design rules, the export pipeline, naming conventions, and embedding standards. All diagrams must use Excalidraw.
 - **Git workflow** — `skills/git-workflow/SKILL.md` defines branching, conventional commits, atomic commit granularity, and the PR workflow using `gh` CLI. All changes go through feature branches and pull requests — never commit directly to `main`. A generalized version of this skill is also installed globally (`~/.agents/skills/git-workflow/`); the local version takes precedence in this repo and includes Contoso-specific lint commands and paths.
+- **Custom agents** — `skills/custom-agents/SKILL.md` defines the template, conventions, and quality bar for authoring GitHub Copilot custom agents (`.agent.md` files in `.github/agents/`). Covers standalone agents, nested orchestrations, tool selection, and Contoso-specific rules. Use this when creating or modifying any agent.
 
 Refer to the relevant skill file before starting work in any of these areas.
