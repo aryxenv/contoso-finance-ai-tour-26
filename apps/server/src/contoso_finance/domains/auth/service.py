@@ -2,6 +2,7 @@
 
 import uuid
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from contoso_finance.domains.auth import repository
@@ -33,12 +34,15 @@ async def register_user(db: AsyncSession, data: RegisterRequest) -> User:
         raise ConflictError("A user with this email already exists")
 
     hashed = hash_password(data.password)
-    return await repository.create_user(
-        db,
-        email=data.email,
-        hashed_password=hashed,
-        full_name=data.full_name,
-    )
+    try:
+        return await repository.create_user(
+            db,
+            email=data.email,
+            hashed_password=hashed,
+            full_name=data.full_name,
+        )
+    except IntegrityError as exc:
+        raise ConflictError("A user with this email already exists") from exc
 
 
 async def authenticate_user(db: AsyncSession, data: LoginRequest) -> LoginResponse:
