@@ -1,4 +1,4 @@
-import type { CurrencyCode, Money } from './common';
+import type { CurrencyCode } from './common';
 
 export type PaymentStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'refunded';
 
@@ -14,7 +14,7 @@ export interface PaymentMethod {
 export interface Payment {
   id: string;
   invoice_id: string | null;
-  amount: Money;
+  amount: number;
   currency: CurrencyCode;
   status: PaymentStatus;
   payment_method: PaymentMethod;
@@ -34,4 +34,11 @@ export interface RefundRequest {
   payment_id: string;
   amount?: number;
   reason: string;
+}
+
+export interface PaymentStatusResponse {
+  id: string;
+  status: PaymentStatus;
+  reference: string;
+  updated_at: string;
 }
