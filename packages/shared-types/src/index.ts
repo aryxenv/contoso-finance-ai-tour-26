@@ -1,3 +1,4 @@
+export type * from './auth';
 export type * from './common';
 export type * from './billing';
 export type * from './payments';
