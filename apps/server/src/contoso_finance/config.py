@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: list[str] = ["http://localhost:5173"]
 
+    # Payments simulation
+    payment_processing_delay_seconds: int = 5
+    payment_failure_rate: float = 0.1
+
     model_config = {"env_prefix": "CONTOSO_", "env_file": ".env"}
 
 

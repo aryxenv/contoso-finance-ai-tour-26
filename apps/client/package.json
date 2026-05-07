@@ -13,6 +13,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@contoso-finance/shared-types": "*",
     "@fluentui/react-components": "^9.73.4",
     "@fluentui/react-icons": "^2.0.321",
     "react": "^19.2.4",
